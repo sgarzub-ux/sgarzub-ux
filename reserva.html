@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservar — CARCARE Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 80px);
+  margin-top: var(--nav-h);
+}
+
+/* LEFT — FORM */
+.booking-form-side {
+  padding: 80px var(--page-pad);
+  border-right: 1px solid var(--border);
+}
+
+.booking-form-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 4.5vw, 68px);
+  font-weight: 300;
+  line-height: 1.0;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.booking-form-title em { font-style: italic; }
+.booking-form-sub {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  line-height: 1.9;
+  margin-bottom: 48px;
+}
+.form-label {
+  font-size: 9px;          /* Ajusta según prefieras */
+  color: #ffffff;           /* Nuevo color */
+}
+.form-input, .form-textarea {
+  font-size: 11px;          /* Ajusta según prefieras */
+  color: #ffffff;           /* Color del texto que escribe el usuario */
+  /* El placeholder se mantiene gris suave */
+}
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--gray-mid);           /* Color de los placeholders */
+}
+/* Pack selector cards */
+.pack-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.pack-opt {
+  padding: 20px 20px;
+  background: var(--surface);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+}
+.pack-opt:hover { background: var(--surface-hover); }
+.pack-opt.selected { border-color: var(--white); background: var(--surface-hover); }
+.pack-opt-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  display: block;
+  margin-bottom: 4px;
+}
+.pack-opt-price {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--gray-light);
+}
+.pack-opt-dot {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+.pack-opt.selected .pack-opt-dot { opacity: 1; transform: scale(1.3); }
+
+/* RIGHT — CALENDAR */
+.booking-cal-side {
+  padding: 80px var(--page-pad);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  align-self: start;
+  min-height: calc(100vh - 80px);
+}
+
+.cal-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.cal-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 48px;
+}
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.cal-month-display {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.cal-nav-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--gray-light);
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: border-color 0.25s, color 0.25s;
+}
+.cal-nav-btn:hover { border-color: var(--white); color: var(--white); }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-day-head {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-light);   /* era --gray-dark */
+  text-align: center;
+  padding: 10px 0;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--gray-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  border: 1px solid transparent;
+}
+.cal-day.avail { color: var(--white); }
+.cal-day.avail:hover { background: var(--black); border-color: var(--border); }
+.cal-day.avail::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%; transform: translateX(-50%);
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--clarity);
+}
+.cal-day.selected { background: var(--white) !important; color: var(--black) !important; border-color: var(--white); }
+.cal-day.selected::after { display: none; }
+.cal-day.unavail { color: var(--gray-dark); cursor: not-allowed; }
+.cal-day.past { color: rgba(255,255,255,0.2); cursor: not-allowed; }   /* era 0.1 */
+.cal-day.today { border-color: var(--gray-mid); }   /* era --gray-dark */
+.cal-day.empty { cursor: default; }
+
+/* Time slots */
+.slots-section {
+  margin-top: 32px;
+  display: none;
+}
+.slots-section.show { display: block; }
+.slots-date {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+.slot-btn {
+  padding: 14px 8px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  background: var(--black);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.slot-btn:hover { background: var(--gray-dark); }
+.slot-btn.sel { background: var(--white); color: var(--black); }
+.slot-btn.taken { background: transparent; color: var(--gray-mid); cursor: not-allowed; text-decoration: line-through; }   /* era --gray-dark */
+
+.cal-legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 24px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-mid);   /* era --gray-dark */
+}
+.legend-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* Booking summary */
+.booking-summary {
+  margin-top: 32px;
+  background: var(--black);
+  padding: 24px 20px;
+  display: none;
+  border-top: 2px solid var(--clarity);
+}
+.booking-summary.show { display: block; }
+.summary-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 12px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-key {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+.summary-val {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.google-note {
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--surface);
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--gray-light);
+  line-height: 1.9;
+  display: flex;
+  gap: 10px;
+}
+.google-note::before { content: 'G'; font-weight: 800; color: var(--clarity); flex-shrink: 0; }
+
+@media (max-width: 960px) {
+  .booking-layout { grid-template-columns: 1fr; margin-top: 0; }
+  .booking-form-side { padding: 100px var(--page-pad-sm) 60px; }
+  .booking-cal-side { padding: 60px var(--page-pad-sm); position: static; min-height: auto; }
+  .pack-selector { grid-template-columns: 1fr 1fr; }
+  .slots-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link active">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <span></span>
+    <span></span>
+  </button>
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<div class="booking-layout">
+
+  <!-- FORM SIDE -->
+  <div class="booking-form-side">
+    <div class="section-label">Reserva tu cita a domicilio</div>
+    <h1 class="booking-form-title">Tu cita,<br><em>a tu ritmo.</em></h1>
+    <p class="booking-form-sub">Elige tu pack, selecciona día y hora en el calendario y rellena tus datos. Te confirmamos en menos de 24h. Para la realización de servicio a domicilio es necesario contar con un espacio habilitado con toma de luz y agua.</p>
+
+    <form id="bookingForm" onsubmit="handleBook(event)">
+
+      <!-- Pack selector -->
+      <div style="margin-bottom:2px">
+        <div class="form-label" style="background:var(--surface);padding:16px 20px 10px;margin-bottom:2px">Selecciona tu pack</div>
+        <div class="pack-selector">
+          <div class="pack-opt" data-pack="clarity" onclick="selectPack(this)">
+            <span class="pack-opt-name">Clarity</span>
+            <span class="pack-opt-price">Desde 60€ · 2–3h</span>
+            <span class="pack-opt-dot" style="background:var(--clarity)"></span>
+          </div>
+          <div class="pack-opt" data-pack="prestige" onclick="selectPack(this)">
+            <span class="pack-opt-name">Prestige</span>
+            <span class="pack-opt-price">Desde 180€ · 6–8h</span>
+            <span class="pack-opt-dot" style="background:var(--prestige)"></span>
+          </div>
+          <div class="pack-opt" data-pack="elite" onclick="selectPack(this)">
+            <span class="pack-opt-name">Élite</span>
+            <span class="pack-opt-price">Desde 300€ · 8–10h</span>
+            <span class="pack-opt-dot" style="background:var(--elite)"></span>
+          </div>
+          <div class="pack-opt" data-pack="essenza" onclick="selectPack(this)">
+            <span class="pack-opt-name">Essenza</span>
+            <span class="pack-opt-price">Consultar · 1–2 días</span>
+            <span class="pack-opt-dot" style="background:var(--essenza)"></span>
+          </div>
+        </div>
+        <input type="hidden" id="selectedPack" name="pack" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" type="text" name="nombre" placeholder="Tu nombre completo" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input class="form-input" type="tel" name="telefono" placeholder="+34 600 000 000" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" name="email" placeholder="tu@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vehículo (marca, modelo y año)</label>
+        <input class="form-input" type="text" name="vehiculo" placeholder="Ej: Seat León 2016, BMW 420d 2021, Audi A3 2009…" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Dirección</label>
+        <input class="form-input" type="text" name="direccion" required placeholder="Ej: Calle Federico, Nº76, CP 00000">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fecha y hora seleccionada</label>
+        <input class="form-input" id="fechaInput" name="fecha" type="text" placeholder="→ Selecciona en el calendario" readonly style="cursor:pointer" onclick="document.querySelector('.booking-cal-side').scrollIntoView({behavior:'smooth'})">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">¿Cuentas con un espacio habilitado para la realización del servicio? (Si/No)</label>
+        <textarea class="form-textarea form-input" name="notas" required placeholder="Es necesario contar con toma de luz y agua.
+
+En caso de no disponer de las necesidades, te propondremos alternativas."></textarea>
+      </div>
+<div class="form-group" style="margin-top:20px">
+  <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+    <input type="checkbox" required style="margin-top:3px">
+    <span style="font-size:10px;color:var(--gray-light);line-height:1.6">
+      He leído y acepto los 
+      <a href="docs/terminos.pdf" target="_blank" style="color:var(--white);text-decoration:underline">Términos y Condiciones</a> 
+      y la 
+      <a href="docs/privacidad.pdf" target="_blank" style="color:var(--white);text-decoration:underline">Política de Privacidad</a>.
+    </span>
+  </label>
+</div>
+      <button type="submit" class="form-submit">Solicitar reserva</button>
+      <div class="form-success" id="bookSuccess">
+        Solicitud enviada correctamente. Te contactamos en menos de 24h para confirmar y recibirás el evento en tu Google Calendar.
+      </div>
+    </form>
+  </div>
+
+  <!-- CALENDAR SIDE -->
+  <div class="booking-cal-side">
+    <div class="cal-title">Disponibilidad</div>
+    <p class="cal-sub">Sincronizado con Google Calendar</p>
+
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+      <div class="cal-month-display" id="calMonthDisplay"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+    <div class="cal-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--white)"></div>Disponible</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-dark)"></div>Ocupado</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--clarity)"></div>Seleccionado</div>
+    </div>
+
+    <div class="slots-section" id="slotsSection">
+      <div class="slots-date" id="slotsDate"></div>
+      <div class="slots-grid" id="slotsGrid"></div>
+    </div>
+
+    <div class="booking-summary" id="bookSummary">
+      <div class="summary-label">Tu reserva</div>
+      <div class="summary-row"><span class="summary-key">Pack</span><span class="summary-val" id="sumPack">—</span></div>
+      <div class="summary-row"><span class="summary-key">Fecha</span><span class="summary-val" id="sumDate">—</span></div>
+      <div class="summary-row"><span class="summary-key">Hora</span><span class="summary-val" id="sumTime">—</span></div>
+    </div>
+
+    <div class="google-note">
+      La disponibilidad se sincroniza con Google Calendar. En menos de 24 horas te confirmaremos la cita mediante esta aplicación o por correo. Recuerda pulsar el botón de "Sí" para hacernos saber que asistirás.
+    </div>
+  </div>
+
+</div>
+
+<script src="shared.js"></script>
+<script>
+// ════════════════════════════════════════════════════
+//  CONFIGURACIÓN — pega aquí la URL de tu Apps Script
+// ════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxaPz_KVysibfQfVF_KtIlvn9EtvxHQdiK-_z5LlBgV2JqQchwtcfIPb8UtIkcw3VO-tA/exec';
+
+// ── PACK SELECTOR
+const packPrices = { clarity:'60€', prestige:'180€', elite:'300€', essenza:'Consultar' };
+const packNames  = { clarity:'Pack Clarity', prestige:'Pack Prestige', elite:'Pack Élite', essenza:'Carcare Essenza' };
+
+function selectPack(el) {
+  document.querySelectorAll('.pack-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const pack = el.dataset.pack;
+  document.getElementById('selectedPack').value = pack;
+  document.getElementById('sumPack').textContent = packNames[pack] + ' — desde ' + packPrices[pack];
+  updateSummary();
+}
+
+// ── CALENDAR
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS   = ['L','M','X','J','V','S','D'];
+
+let cMonth, cYear;
+let selDay    = null;
+let selTime   = null;
+let availData = {};   // slots libres por día { día: [{start, end, title}] }
+let busyData  = {};   // slots ocupados por día { día: [{start, end}] }
+
+function initCal() {
+  const now = new Date();
+  cMonth = now.getMonth();
+  cYear  = now.getFullYear();
+  fetchAvailability(cYear, cMonth);
+}
+
+// Consulta disponibilidad: slots del cal. de disponibilidad MENOS los ya reservados
+async function fetchAvailability(year, month) {
+  document.getElementById('calGrid').innerHTML =
+    '<div style="grid-column:1/-1;padding:20px 0;text-align:center;font-family:var(--font-body);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-mid)">Cargando disponibilidad…</div>';
+  try {
+    const res     = await fetch(SCRIPT_URL + '?action=availability&year=' + year + '&month=' + month, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rawText = await res.text();
+    const data    = rawText ? JSON.parse(rawText) : {};
+    if (data.ok) {
+      availData = data.available || {};   // slots que el cliente puede elegir
+      busyData  = data.busy      || {};   // slots ya reservados (mostrar en gris)
+    } else {
+      console.warn('Apps Script error:', data.error);
+      availData = {}; busyData = {};
+    }
+  } catch(err) {
+    console.warn('Disponibilidad no cargada:', err.message);
+    availData = {}; busyData = {};
+  }
+  renderCal();
+}
+
+function renderCal() {
+  document.getElementById('calMonthDisplay').textContent = MONTHS[cMonth] + ' ' + cYear;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  DAYS.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-head';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(cYear, cMonth, 1).getDay();
+  const offset   = firstDay === 0 ? 6 : firstDay - 1;
+  const total    = new Date(cYear, cMonth + 1, 0).getDate();
+  const today    = new Date();
+  const todayKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+
+  for (let i = 0; i < offset; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= total; d++) {
+    const el      = document.createElement('div');
+    el.className  = 'cal-day';
+    el.textContent = d;
+
+    const dateKey    = cYear + '-' + cMonth + '-' + d;
+    const dayDate    = new Date(cYear, cMonth, d);
+    const isPast     = dayDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    // Un día es seleccionable solo si tiene slots libres en el cal. de disponibilidad
+    const hasAvail   = availData[d] && availData[d].length > 0;
+    // Un día está completamente ocupado si tiene slots busy pero ninguno libre
+    const allBusy    = !hasAvail && busyData[d] && busyData[d].length > 0;
+    // Un día no está en ningún calendario = no trabajas ese día
+    const notWorking = !hasAvail && !busyData[d];
+
+    if (isPast)           el.classList.add('past');
+    else if (notWorking)  el.classList.add('past');      // no configurado = no disponible
+    else if (allBusy)     el.classList.add('unavail');   // todo ocupado
+    else                  el.classList.add('avail');     // tiene huecos libres
+
+    if (dateKey === todayKey) el.classList.add('today');
+    if (selDay  === dateKey)  el.classList.add('selected');
+
+    if (el.classList.contains('avail')) {
+      el.addEventListener('click', () => {
+        selDay = dateKey; selTime = null;
+        renderCal();
+        showSlots(d);
+      });
+    }
+    grid.appendChild(el);
+  }
+}
+
+function changeMonth(dir) {
+  cMonth += dir;
+  if (cMonth > 11) { cMonth = 0; cYear++; }
+  if (cMonth < 0)  { cMonth = 11; cYear--; }
+  selDay = null; selTime = null;
+  document.getElementById('slotsSection').classList.remove('show');
+  document.getElementById('bookSummary').classList.remove('show');
+  fetchAvailability(cYear, cMonth);
+}
+
+function showSlots(day) {
+  const sec   = document.getElementById('slotsSection');
+  const grid  = document.getElementById('slotsGrid');
+  const label = day + ' de ' + MONTHS[cMonth] + ' de ' + cYear;
+
+  document.getElementById('slotsDate').textContent = label;
+  sec.classList.add('show');
+  grid.innerHTML = '';
+
+  // --- Estos son los eventos del calendario de disponibilidad ---
+  const freeSlotsRaw = availData[day] || [];
+
+  // Si no hay NINGÚN evento → día sin disponibilidad
+  if (!freeSlotsRaw.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:16px 0;font-family:var(--font-body);font-size:10px;color:var(--gray-mid);letter-spacing:0.1em">Sin horarios disponibles este día</div>';
+    return;
+  }
+
+  // --- Expandimos cada evento a intervalos de 1h ---
+  const freeSlots = [];
+  freeSlotsRaw.forEach(ev => {
+    const startH = parseInt(ev.start.split(':')[0], 10);
+    const endH   = parseInt(ev.end.split(':')[0], 10);
+    for (let h = startH; h < endH; h++) {
+      freeSlots.push((h < 10 ? '0' : '') + h + ':00');
+    }
+  });
+
+  // --- Slots ocupados reales ---
+  const takenSlots = (busyData[day] || []).map(ev => ev.start);
+
+  // --- Mostrar cada hora disponible ---
+  freeSlots.forEach(time => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    const isTaken = takenSlots.includes(time);
+    if (isTaken) {
+      btn.className = 'slot-btn taken';
+      btn.textContent = time;
+    } else {
+      btn.className = 'slot-btn';
+      btn.textContent = time;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        selTime = time;
+        document.getElementById('fechaInput').value =
+          day + ' ' + MONTHS[cMonth] + ' ' + cYear + ' · ' + time;
+        updateSummary();
+      });
+    }
+    grid.appendChild(btn);
+  });
+}
+
+function updateSummary() {
+  const sum = document.getElementById('bookSummary');
+  if (selDay && selTime) {
+    sum.classList.add('show');
+    const parts = selDay.split('-');
+    document.getElementById('sumDate').textContent = parts[2] + ' de ' + MONTHS[+parts[1]] + ' ' + parts[0];
+    document.getElementById('sumTime').textContent = selTime + 'h';
+  }
+}
+
+// ── Enviar reserva al Apps Script → Google Calendar + email
+async function handleBook(e) {
+  e.preventDefault();
+  const pack = document.getElementById('selectedPack').value;
+  if (!pack)              { alert('Por favor selecciona un pack.'); return; }
+  if (!selDay || !selTime){ alert('Por favor selecciona fecha y hora en el calendario.'); return; }
+
+  const submit = e.target.querySelector('.form-submit');
+  submit.textContent = 'Enviando…';
+  submit.disabled    = true;
+
+  const parts = selDay.split('-');
+  const fechaStr = parts[2] + ' ' + MONTHS[+parts[1]] + ' ' + parts[0];
+
+  const payload = {
+    action:    'booking',
+    nombre:    e.target.nombre.value.trim(),
+    telefono:  e.target.telefono.value.trim(),
+    email:     e.target.email.value.trim(),
+    vehiculo:  e.target.vehiculo.value.trim(),
+    direccion: e.target.direccion.value.trim(),
+    pack:      pack,
+    fecha:     fechaStr,
+    hora:      selTime,
+    notas:     e.target.notas.value.trim(),
+  };
+
+  try {
+    // URLSearchParams evita el preflight CORS en Apps Script
+    const res    = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body:   new URLSearchParams(payload),
+    });
+    const text   = await res.text();
+    const result = text ? JSON.parse(text) : { ok: true };
+
+    if (result.ok) {
+      document.getElementById('bookSuccess').classList.add('show');
+      e.target.reset();
+      document.querySelectorAll('.pack-opt').forEach(o => o.classList.remove('selected'));
+      selDay = null; selTime = null;
+      fetchAvailability(cYear, cMonth);
+      setTimeout(() => document.getElementById('bookSuccess').classList.remove('show'), 8000);
+    } else if (result.conflict) {
+      alert('Ese horario acaba de ser reservado. Por favor elige otra hora.');
+      fetchAvailability(cYear, cMonth);
+    } else {
+      alert('Error al enviar: ' + (result.error || 'Inténtalo de nuevo.'));
+    }
+  } catch(err) {
+    alert('No se pudo conectar con el servidor. Comprueba que has configurado la URL del Apps Script.');
+    console.error(err);
+  } finally {
+    submit.textContent = 'Solicitar reserva';
+    submit.disabled    = false;
+  }
+}
+
+// ── Init
+initCal();
+
+// Pre-seleccionar pack desde URL (?pack=elite)
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const pack   = params.get('pack');
+  if (pack) {
+    const el = document.querySelector('[data-pack="' + pack + '"]');
+    if (el) selectPack(el);
+  }
+});
+</script>
+</body>
+</html>

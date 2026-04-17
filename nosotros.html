@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosotros — CARCARE Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+.about-hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: calc(var(--nav-h) + 80px) var(--page-pad) 90px;
+  overflow: hidden;
+}
+.about-hero-bg {
+  position: absolute; inset: 0;
+  /* 📸 FOTO NOSOTROS HERO — cambiar URL */
+  background-image: url('https://res.cloudinary.com/dk434s7si/image/upload/v1774969916/IMG_8615_cfmdof.jpg');
+  background-size: cover; background-position: center 60%;
+}
+.about-hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,6,6,1) 0%, rgba(6,6,6,0.6) 50%, rgba(6,6,6,0.2) 100%);
+}
+.about-hero-content { position: relative; z-index: 2; }
+.about-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 120px);
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--white);
+}
+.about-hero-title em { font-style: italic; color: var(--white); }
+
+/* NUESTROS VALORES */
+.values {
+  padding: 100px var(--page-pad);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 100px;
+  border-top: 1px solid var(--border);
+}
+.values-intro {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+}
+.values-intro em { font-style: italic; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.value-item {
+  background: var(--surface);
+  padding: 36px 32px;
+  transition: background 0.3s;
+}
+.value-item:hover { background: var(--surface-hover); }
+.value-icon {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--gray-light);   /* era 0.2 */
+  margin-bottom: 16px;
+}
+.value-title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.value-text {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  line-height: 1.9;
+  color: var(--white);
+}
+
+/* NUESTRA HISTORIA */
+.story {
+  padding: 100px var(--page-pad);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+.story-img-wrap {
+  position: relative;
+  height: 560px;
+  overflow: hidden;
+}
+.story-img {
+  position: absolute; inset: 0;
+  /* 📸 FOTO TALLER — cambiar URL */
+  background-image: url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035884/FullSizeRender_adxa7l.jpg');
+  background-size: cover; background-position: center;
+  transition: transform 0.8s;
+}
+.story-img-wrap:hover .story-img { transform: scale(1.04); }
+
+}
+.story-text {}
+.story-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 32px;
+}
+.story-title em { font-style: italic; }
+.story-body {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  line-height: 2.1;
+  color: var(--white);
+}
+.story-body p + p { margin-top: 20px; }
+
+/* CERTIFICACIONES */
+.certifications {
+  padding: 80px var(--page-pad);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.certifications-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+margin-bottom: 40px;
+}
+.certifications-title em { font-style: italic; }
+.certifications-body {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  line-height: 2;
+  color: var(--white);
+  max-width: 700px;
+margin-bottom: 40px;
+}
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.cert-card {
+  background: var(--surface);
+  padding: 24px;
+  border-radius: 12px;
+  transition: background 0.3s, transform 0.3s;
+}
+.cert-card:hover {
+  background: var(--surface-hover);
+  transform: translateY(-4px);
+}
+.cert-tag {
+  padding: 8px 16px;
+  background: var(--black);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.cert-tag:hover { color: var(--white); }
+.cert-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--white);
+}
+
+/* PRODUCTOS Y MARCAS */
+.products {
+  padding: 80px var(--page-pad);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.products-title {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.products-title::before { content: ''; width: 28px; height: 1px; background: var(--gray-mid); }   /* era --gray-dark */
+.products-list {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.product-tag {
+  padding: 12px 24px;
+  background: var(--black);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  transition: color 0.3s;
+}
+.product-tag:hover { color: var(--white); }
+
+@media (max-width: 960px) {
+  .values, .story { grid-template-columns: 1fr; gap: 50px; padding: 80px var(--page-pad-sm); }
+  .gallery { padding: var(--page-pad-sm); padding-top: 60px; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .g-img.wide { grid-column: span 1; }
+  .products { padding: 60px var(--page-pad-sm); }
+  .story-img-wrap { height: 360px; }
+}
+
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link active">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <span></span>
+    <span></span>
+  </button>
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-hero-content">
+    <div class="page-hero-label" style="margin-bottom:20px">Quiénes somos</div>
+    <h1 class="about-hero-title">
+      Obsesión<br>
+      por el <em>detalle.</em>
+    </h1>
+  </div>
+</section>
+
+<section class="values reveal">
+  <div>
+    <div class="section-label">Nuestros valores</div>
+    <h2 class="values-intro">Lo que nos<br>hace <em>diferentes.</em></h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-icon">I.</div>
+      <div class="value-title">Criterio</div>
+      <p class="value-text">No aplicamos productos sin saber por qué. Cada paso tiene una razón técnica y un objetivo concreto.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">II.</div>
+      <div class="value-title">ComodidaD</div>
+      <p class="value-text">Nos desplazamos hasta donde estés. Tu coche en las mejores manos sin moverte del sofá.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">III.</div>
+      <div class="value-title">Honestidad</div>
+      <p class="value-text">Te decimos lo que tu coche necesita, no lo que eleva la factura. Transparencia total desde el primer momento.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">IV.</div>
+      <div class="value-title">Resultado</div>
+      <p class="value-text">El trabajo habla por sí solo. Nuestros clientes vuelven porque el resultado supera las expectativas.</p>
+    </div>
+  </div>
+</section>
+
+<section class="story reveal">
+  <div class="story-text">
+    <div class="section-label">Nuestra historia</div>
+    <h2 class="story-title">Empezamos con una <em>obsesión.</em></h2>
+    <div class="story-body">
+      <p>Carcare no empezó como un negocio. Empezó como una forma de hacer las cosas bien.<p>Detrás de todo esto estoy yo, Pablo, un ingeniero mecánico en desarrollo y amante del motor con una obsesión bastante clara: los coches no solo tienen que funcionar bien, también tienen que sentirse bien.<p>Empecé desde cero, compaginando estudios y mi anterior trabajo. Probando productos, entendiendo materiales y equivocándome muchas veces hasta dar con procesos que realmente funcionan. No para hacer más coches, sino para hacerlos mejor.<p>Con el tiempo, esa forma de trabajar se convirtió en un estándar. Un nivel de exigencia que hoy aplico a cada vehículo que pasa por mis manos.<p>Carcare no busca ser el sitio más rápido ni el más barato. Busca que, cuando recojas tu coche, sientas que ha merecido la pena. Que lo mires distinto. Que te apetezca conducirlo.<p>Porque al final, no se trata solo de limpiar un coche. Se trata de cómo te hace sentir cuando vuelves a subirte en él.</p>
+    </div>
+  </div>
+  <div class="story-img-wrap">
+    <div class="story-img" style="background-image: url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775120664/IMG_9519_aioeww.jpg');"></div>
+  </div>
+</section>
+
+<section class="certifications reveal">
+  <div>
+    <div class="section-label">Certificaciones</div>
+    <h2 class="certifications-title">Técnicos certificados por las <em>mejores marcas.</em></h2>
+    <p class="certifications-body">
+      Estamos al día de las nuevas técnicas del mercado. Contamos con la certificación de reconocidas marcas que garantizan profesionalidad y seguridad en cada tratamiento.
+    </p>
+    <div class="certifications-grid">
+      <div class="cert-card">
+        <div class="cert-tag">QJUTSU - True spirit of quartz</div>
+        <p class="cert-desc">Marca de cerámicos japoneses. Reconocidos por sus meticulosos procesos de testeo de producto. Calidad garantizada.</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-tag">SYSTEM X - Ceramic protection</div>
+        <p class="cert-desc">Líderes mundiales en protección cerámica para sectores como automoción, aviación y naútica.</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-tag">ZVIZZER</div>
+        <p class="cert-desc">Prestigiosa marca alemana, especializada en productos de pulido. Certificados en la gama de Zvizzer SPEED POLISH</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products reveal">
+  <div class="products-title">Productos y marcas que usamos</div>
+  <div class="products-list">
+    <div class="product-tag">Soft 99</div>
+    <div class="product-tag">Koch Chemie</div>
+    <div class="product-tag">Zvizzer</div>
+    <div class="product-tag">Rupes</div>
+    <div class="product-tag">SYSTEM X</div>
+    <div class="product-tag">CarPro</div>
+    <div class="product-tag">The Detailing Club</div>
+    <div class="product-tag">QJUTSU</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">CARCARE</span>
+      <p class="footer-sub">Detailing premium a domicilio en Bilbao.</p>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Servicios</div>
+        <a href="servicios.html#clarity">Pack Clarity</a>
+        <a href="servicios.html#prestige">Pack Prestige</a>
+        <a href="servicios.html#elite">Pack Élite</a>
+        <a href="servicios.html#essenza">Carcare Essenza</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Páginas</div>
+        <a href="index.html">Inicio</a>
+        <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+        <a href="contacto.html">Contacto</a>
+     <a href="docs/terminos.pdf" target="_blank">Términos y condiciones</a>
+	<a href="docs/privacidad.pdf" target="_blank">Política de privacidad</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Carcare Bilbao</span>
+    <span class="footer-copy" style="color:var(--gray-dark)">Bilbao, Bizkaia</span>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

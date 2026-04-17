@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicios — CARCARE Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 100px;
+}
+
+.page-hero-label {
+  color: var(--white); /* cambia aquí */
+}
+
+.page-hero-title {
+  color: var(--white); /* título principal */
+}
+
+.page-hero-title em {
+  color: var(--white); /* parte en cursiva */
+}
+
+.page-hero-sub {
+  color: var(--white); /* texto secundario */
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  /* 📸 FOTO HERO SERVICIOS — cambiar URL */
+  background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=1600&q=80');
+  background-size: cover;
+  background-position: center 40%;
+  opacity: 0.18;
+}
+.page-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--black) 10%, transparent);
+}
+
+/* PACK CLARITY */
+.pack-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+  min-height: 600px;
+}
+.pack-section.reverse { direction: rtl; }
+.pack-section.reverse > * { direction: ltr; }
+
+.pack-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+.pack-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.pack-section:hover .pack-img { transform: scale(1.04); }
+
+.pack-img-overlay {
+  position: absolute;
+  inset: 0;
+}
+.pack-section:not(.reverse) .pack-img-overlay {
+  background: linear-gradient(to right, transparent 60%, var(--black));
+}
+.pack-section.reverse .pack-img-overlay {
+  background: linear-gradient(to left, transparent 60%, var(--black));
+}
+
+.pack-accent-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.pack-info {
+  padding: 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pack-header {
+  display: flex;
+  align-items: center;   /* centra verticalmente */
+  gap: 12px;             /* espacio real entre número y texto */
+}
+
+/* número */
+.pack-number {
+  font-family: var(--font-display);
+  font-size: 70px;
+  font-weight: 300;
+  color: var(--gray-light);
+  line-height: 1;
+  margin: 0;             /* 🔴 quita offsets raros */
+  user-select: none;
+}
+
+/* texto */
+.pack-tag {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0;             /* 🔴 elimina margin negativo */
+}
+
+/* línea decorativa */
+.pack-tag span {
+  width: 18px;
+  height: 1px;
+  display: inline-block;
+}
+
+.pack-name {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 5.5vw, 88px);
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.pack-name em { font-style: italic; }
+
+.pack-slogan {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);   /* era 0.35 */
+  line-height: 2;
+  margin-bottom: 32px;
+}
+
+.pack-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 2;
+  color: var(--white);
+  margin-bottom: 36px;
+}
+
+/* Details accordion */
+.pack-details {
+  margin-bottom: 36px;
+}
+.pack-detail-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  width: 100%;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.pack-detail-toggle:hover { border-color: rgba(255,255,255,0.2); }
+.pack-detail-toggle-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.pack-detail-toggle-icon {
+  font-size: 18px;
+  color: var(--gray-mid);
+  transition: transform 0.3s;
+  line-height: 1;
+}
+.pack-detail-toggle.open .pack-detail-toggle-icon { transform: rotate(45deg); }
+
+.pack-detail-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.pack-detail-body.open { max-height: 600px; }
+
+.pack-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 40px;
+  padding: 24px 0;
+}
+.pack-detail-col-title {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);   /* era --gray-mid */
+  margin-bottom: 12px;
+}
+.pack-detail-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.pack-detail-list li {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.pack-detail-list li::before {
+  content: '—';
+  font-size: 10px;
+  color: var(--white);   /* era --gray-dark */
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Pack PRESTIGE */
+.pack-meta {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 32px;
+}
+.pack-meta-item {
+  flex: 1;
+  background: var(--surface);
+  padding: 16px 18px;
+}
+.pack-meta-label {
+  font-family: var(--font-body);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray-light);   /* era --gray-dark */
+  margin-bottom: 6px;
+}
+.pack-meta-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--white);
+}
+.pack-meta-value.sm {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* COMPARISON TABLE */
+.comparison {
+  padding: 100px var(--page-pad);
+  border-top: 1px solid var(--border);
+}
+.comparison-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: 60px;
+}
+.comparison-title em { font-style: italic; }
+
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comp-table th, .comp-table td {
+  padding: 16px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.comp-table th:first-child, .comp-table td:first-child {
+  text-align: left;
+  width: 30%;
+}
+.comp-table thead th {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--white);
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.comp-table thead th.accent-clarity { color: var(--clarity); }
+.comp-table thead th.accent-prestige { color: var(--prestige); }
+.comp-table thead th.accent-elite { color: var(--elite); }
+.comp-table thead th.accent-essenza { color: var(--essenza); }
+
+.comp-table tbody td {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--white);
+}
+.comp-table tbody td:first-child { color: var(--white); }  /* era 0.6 */
+.comp-table tbody tr:hover td { background: var(--surface); }
+
+.check { color: var(--white); font-size: 13px; }
+.dash  { color: var(--gray-mid); font-size: 13px; }   /* era --gray-light */
+.star  { color: var(--essenza); font-size: 13px; }
+
+.comp-price-row td {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--white);
+  padding-top: 24px;
+}
+.comp-price-row td:first-child {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--white);
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .pack-section { grid-template-columns: 1fr; }
+  .pack-section.reverse { direction: ltr; }
+  .pack-visual { min-height: 320px; }
+  .pack-info { padding: 52px var(--page-pad-sm); }
+  .pack-detail-grid { grid-template-columns: 1fr; }
+  .comparison { padding: 80px var(--page-pad-sm); overflow-x: auto; }
+  .comp-table { min-width: 600px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <span></span>
+    <span></span>
+  </button>
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-label">Nuestros servicios</div>
+  <h1 class="page-hero-title">Cada nivel,<br><em>un resultado.</em></h1>
+  <p class="page-hero-sub">Cuatro packs pensados para distintas necesidades. Todos con el mismo estándar de exigencia.</p>
+</div>
+
+<!-- ══ CLARITY ══ -->
+<section class="pack-section reveal" id="clarity">
+  <div class="pack-visual">
+    <!-- 📸 FOTO CLARITY — cambiar URL -->
+    <div class="pack-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035884/FullSizeRender_adxa7l.jpg')"></div>
+    <div class="pack-img-overlay"></div>
+    <div class="pack-accent-bar" style="background:var(--clarity)"></div>
+  </div>
+  <div class="pack-info">
+    <div class="pack-header">
+  <div class="pack-number">01</div>
+  <div class="pack-tag" style="color:var(--clarity)">
+    <span style="background:var(--clarity);width:18px;height:1px;display:inline-block"></span>
+    Mantenimiento
+  </div>
+</div>
+    <h2 class="pack-name"><em>Clarity</em></h2>
+    <p class="pack-slogan">Es limpio. Es ordenado. Es honesto.</p>
+    <p class="pack-desc">No es un básico cualquiera, tampoco un integral. Es un servicio rápido pero hecho con criterio, pensado para mantener tu coche en orden sin perder tiempo. Cada detalle cuenta, aunque sea a nivel inicial.</p>
+
+    <div class="pack-meta">
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Precio</div>
+        <div class="pack-meta-value">Desde 60€</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Duración</div>
+        <div class="pack-meta-value">2 – 3h</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Ideal para</div>
+        <div class="pack-meta-value sm">Mantenimiento regular</div>
+      </div>
+    </div>
+
+    <div class="pack-details">
+      <button class="pack-detail-toggle" onclick="toggleDetail(this)">
+        <span class="pack-detail-toggle-label">¿Qué incluye?</span>
+        <span class="pack-detail-toggle-icon">+</span>
+      </button>
+      <div class="pack-detail-body">
+        <div class="pack-detail-grid">
+          <div>
+            <div class="pack-detail-col-title">Interior</div>
+            <ul class="pack-detail-list">
+              <li>Aspirado completo</li>
+              <li>Limpieza del salpicadero y consola central</li>
+              <li>Cristales interiores</li>
+            </ul>
+          </div>
+          <div>
+            <div class="pack-detail-col-title">Exterior</div>
+            <ul class="pack-detail-list">
+              <li>Pre-lavado para lavado a mano sin arañar</li>
+              <li>Limpieza de llantas</li>
+              <li>Secado completo</li>
+            </ul>
+          </div>
+          <div style="grid-column:1/-1;background:rgba(184,169,138,0.07);padding:16px 20px;border-left:2px solid var(--clarity)">
+            <div class="pack-detail-col-title" style="margin-bottom:8px">¿Qué consigues?</div>
+            <p style="font-size:10px;color:var(--gray-light);line-height:1.9;letter-spacing:0.05em">Tu coche se siente fresco y renovado en poco tiempo. Recuperas la sensación de coche ordenado sin perder tu tiempo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="reserva.html?pack=clarity">Reservar Clarity</a>
+  </div>
+</section>
+
+<!-- ══ PRESTIGE ══ -->
+<section class="pack-section reverse reveal" id="prestige">
+  <div class="pack-visual">
+    <!-- 📸 FOTO PRESTIGE — cambiar URL -->
+    <div class="pack-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035909/IMG_8615_zk4ri8.jpg')"></div>
+    <div class="pack-img-overlay"></div>
+    <div class="pack-accent-bar" style="background:var(--prestige)"></div>
+  </div>
+  <div class="pack-info">
+  <div class="pack-header">
+    <div class="pack-number">02</div>
+    <div class="pack-tag" style="color:var(--prestige)">
+      <span style="background:var(--prestige);width:18px;height:1px;display:inline-block"></span>
+      Limpieza integral
+    </div>
+  </div>
+  <h2 class="pack-name"><em>Prestige</em></h2>
+    <p class="pack-slogan">Se nota. Se siente. Se mantiene.</p>
+    <p class="pack-desc">El servicio para quienes quieren sentir que estrenan coche cada vez que se suben. Interior impecable, exterior protegido. Un resultado que se mantiene durante meses.</p>
+
+    <div class="pack-meta">
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Precio</div>
+        <div class="pack-meta-value">Desde 180€</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Duración</div>
+        <div class="pack-meta-value">6 – 8h</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Protección</div>
+        <div class="pack-meta-value">4 meses</div>
+      </div>
+    </div>
+
+    <div class="pack-details">
+      <button class="pack-detail-toggle" onclick="toggleDetail(this)">
+        <span class="pack-detail-toggle-label">¿Qué incluye?</span>
+        <span class="pack-detail-toggle-icon">+</span>
+      </button>
+      <div class="pack-detail-body">
+        <div class="pack-detail-grid">
+          <div>
+            <div class="pack-detail-col-title">Interior</div>
+            <ul class="pack-detail-list">
+              <li>Aspirado completo</li>
+              <li>Limpieza de tapicería</li>
+              <li>Alfombrillas y moqueta</li>
+              <li>Desinfección con vapor</li>
+              <li>Limpieza de puertas, paneles y cristales</li>
+<li>Lavado entrepuertas</li>
+<li>Acondicionado plásticos interiores</li>
+<li>Limpieza y nutrido del cuero</li>
+            </ul>
+          </div>
+          <div>
+            <div class="pack-detail-col-title">Exterior</div>
+            <ul class="pack-detail-list">
+              <li>Pre-lavado y lavado a mano con jabón pH neutro</li>
+<li>Limpieza detallada de llantas</li>
+              <li>Sellante de protección 4 meses</li>
+              <li>Hidratación de neumáticos</li>
+            </ul>
+          </div>
+          <div style="grid-column:1/-1;background:rgba(126,163,193,0.05);padding:16px 20px;border-left:2px solid var(--prestige)">
+            <div class="pack-detail-col-title" style="margin-bottom:8px">¿Qué consigues?</div>
+            <p style="font-size:10px;color:var(--gray-light);line-height:1.9;letter-spacing:0.05em">Un interior impecable y un ambiente renovado que devuelve el placer de conducir. En el exterior, tu coche gana brillo y protección extra.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="reserva.html?pack=prestige">Reservar Prestige</a>
+  </div>
+</section>
+
+<!-- ══ ELITE ══ -->
+<section class="pack-section reveal" id="elite">
+  <div class="pack-visual">
+    <!-- 📸 FOTO ÉLITE — cambiar URL -->
+    <div class="pack-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035888/IMG_9315_diy49q.jpg')"></div>
+    <div class="pack-img-overlay"></div>
+    <div class="pack-accent-bar" style="background:var(--elite)"></div>
+  </div>
+<div class="pack-info">
+  <div class="pack-header">
+    <div class="pack-number">03</div>
+    <div class="pack-tag" style="color:var(--elite)">
+      <span style="background:var(--elite);width:18px;height:1px;display:inline-block"></span>
+      Experiencia completa
+    </div>
+  </div>
+
+  <h2 class="pack-name"><em>Élite</em></h2>
+    <p class="pack-slogan">Es diferente. Es distinto. Es distintivo.</p>
+    <p class="pack-desc">La combinación perfecta entre limpieza y protección premium. Es todo un viaje sensorial. Hasta te preguntarás si ese es tu vehículo.</p>
+
+    <div class="pack-meta">
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Precio</div>
+        <div class="pack-meta-value">Desde 300€</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Duración</div>
+        <div class="pack-meta-value">8 – 10h</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Protección</div>
+        <div class="pack-meta-value">12 meses</div>
+      </div>
+    </div>
+
+    <div class="pack-details">
+      <button class="pack-detail-toggle" onclick="toggleDetail(this)">
+        <span class="pack-detail-toggle-label">¿Qué incluye?</span>
+        <span class="pack-detail-toggle-icon">+</span>
+      </button>
+      <div class="pack-detail-body">
+        <div class="pack-detail-grid">
+          <div>
+            <div class="pack-detail-col-title">Interior</div>
+            <ul class="pack-detail-list">
+              <li>Aspirado completo</li>
+              <li>Limpieza completa de tapicería</li>
+              <li>Alfombrillas y moqueta</li>
+              <li>Desinfección con vapor y eliminación de olores</li>
+              <li>Puertas, paneles y cristales</li>
+<li>Lavado de entrepuertas</li>
+              <li>Hidratación de plásticos frente a rayos UV</li>
+<li>Limpieza y nutrido del cuero</li>
+            </ul>
+          </div>
+          <div>
+            <div class="pack-detail-col-title">Exterior</div>
+            <ul class="pack-detail-list">
+              <li>Pre-lavado y lavado a mano con jabón pH neutro</li>
+<li>Limpieza detallada de llantas</li>
+              <li>Descontaminación química y física</li>
+              <li>Protección sintética hidrofóbica de 12 meses</li>
+              <li>Tratamiento antilluvia en cristales de 12 meses</li>
+              <li>Nutridor protector de neumáticos</li>
+            </ul>
+          </div>
+          <div style="grid-column:1/-1;background:rgba(196,148,106,0.05);padding:16px 20px;border-left:2px solid var(--elite)">
+            <div class="pack-detail-col-title" style="margin-bottom:8px">¿Qué consigues?</div>
+            <p style="font-size:10px;color:var(--gray-light);line-height:1.9;letter-spacing:0.05em">El interior huele y se siente renovado. El exterior brilla con intensidad y se protege. Ganas visibilidad y seguridad gracias al antilluvia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="reserva.html?pack=elite">Reservar Élite</a>
+  </div>
+</section>
+
+<!-- ══ ESSENZA ══ -->
+<section class="pack-section reverse reveal" id="essenza" style="background:var(--surface)">
+  <div class="pack-visual">
+    <!-- 📸 FOTO ESSENZA — cambiar URL -->
+    <div class="pack-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035925/IMG_8441_oyq8ve.jpg')"></div>
+    <div class="pack-img-overlay"></div>
+    <div class="pack-accent-bar" style="background:var(--essenza)"></div>
+  </div>
+ <div class="pack-info">
+  <div class="pack-header">
+    <div class="pack-number" style="color:rgba(255,255,255,0.06)">∞</div>
+    <div class="pack-tag" style="color:var(--essenza)">
+      <span style="background:var(--essenza);width:18px;height:1px;display:inline-block"></span>
+      Experiencia absoluta
+    </div>
+  </div>
+
+  <h2 class="pack-name"><em>Essenza</em></h2>
+    <p class="pack-slogan">Es corrección. Es protección. Es acabado.</p>
+    <p class="pack-desc">Nuestra experiencia de detailing más avanzada para el cliente que quiere eliminar arañazos y proteger su inversión. No es para cualquiera. Es para quienes verdaderamente valoran su vehículo.</p>
+
+    <div class="pack-meta">
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Precio</div>
+        <div class="pack-meta-value">Consultar</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Duración</div>
+        <div class="pack-meta-value">1 – 2 días</div>
+      </div>
+      <div class="pack-meta-item">
+        <div class="pack-meta-label">Protección</div>
+        <div class="pack-meta-value">Hasta 10 años</div>
+      </div>
+    </div>
+
+    <div class="pack-details">
+      <button class="pack-detail-toggle" onclick="toggleDetail(this)">
+        <span class="pack-detail-toggle-label">¿Qué incluye?</span>
+        <span class="pack-detail-toggle-icon">+</span>
+      </button>
+      <div class="pack-detail-body">
+        <div class="pack-detail-grid">
+          <div>
+            <div class="pack-detail-col-title">Interior + Exterior</div>
+            <ul class="pack-detail-list">
+              <li>Limpieza exhaustiva del interior completo</li>
+              <li>Todas las superficies impecables y protegidas</li>
+              <li>Limpieza detallada de todo el exterior</li>
+              <li>Descontaminación química y física completa</li>
+            </ul>
+          </div>
+          <div>
+            <div class="pack-detail-col-title">Pulido + Cerámica</div>
+            <ul class="pack-detail-list">
+              <li>Pulido 1 paso — corrección básica</li>
+              <li>Pulido 2 pasos — corrección avanzada</li>
+              <li>Pulido 3 pasos — 99% eliminación de defectos</li>
+              <li>Tratamiento cerámico 1 a 10 años</li>
+              <li>Mayor dureza, suavidad e hidrofobia</li>
+            </ul>
+          </div>
+          <div style="grid-column:1/-1;background:rgba(154,138,120,0.06);padding:16px 20px;border-left:2px solid var(--essenza)">
+            <div class="pack-detail-col-title" style="margin-bottom:8px">Condiciones necesarias</div>
+            <p style="font-size:10px;color:var(--gray-light);line-height:1.9;letter-spacing:0.05em">Requiere garaje cerrado y buena iluminación. Se realiza una valoración previa del estado de la carrocería para determinar los pasos de pulido necesarios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="reserva.html?pack=essenza">Reservar Essenza</a>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison reveal">
+  <div class="section-label">Comparativa</div>
+
+  <h2 class="comparison-title">¿Cuál es el tuyo?</em></h2>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="accent-clarity">Clarity</th>
+        <th class="accent-prestige">Prestige</th>
+        <th class="accent-elite">Élite</th>
+        <th class="accent-essenza">Essenza</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Aspirado completo</td>       <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Lavado a mano</td>           <td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Limpieza tapicería</td>      <td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Desinfección con vapor</td>  <td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Descontaminación carrocería</td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Protección sellante</td>     <td><span class="dash">—</span></td><td>4 meses</td><td>12 meses</td><td>1–10 años</td></tr>
+      <tr><td>Tratamiento antilluvia</td>  <td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Pulido de carrocería</td>    <td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="star">★</span></td></tr>
+      <tr><td>Tratamiento cerámico</td>    <td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="star">★</span></td></tr>
+    </tbody>
+    <tfoot>
+      <tr class="comp-price-row">
+        <td>Desde</td>
+        <td style="color:var(--clarity)">60€</td>
+        <td style="color:var(--prestige)">180€</td>
+        <td style="color:var(--elite)">300€</td>
+        <td style="color:var(--essenza)">Consultar</td>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">CARCARE</span>
+      <p class="footer-sub">Detailing premium en Bilbao.</p>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Servicios</div>
+        <a href="#clarity">Pack Clarity</a>
+        <a href="#prestige">Pack Prestige</a>
+        <a href="#elite">Pack Élite</a>
+        <a href="#essenza">Carcare Essenza</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Páginas</div>
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="opiniones.html">Opiniones</a>
+        <a href="reserva.html">Reservar</a>
+        <a href="contacto.html">Contacto</a>
+                   <a href="docs/terminos.pdf" target="_blank">Términos y condiciones</a>
+	<a href="docs/privacidad.pdf" target="_blank">Política de privacidad</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Carcare Bilbao</span>
+    <span class="footer-copy" style="color:var(--gray-mid)">Bilbao, Bizkaia</span>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+function toggleDetail(btn) {
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// Auto-scroll to pack if URL has hash
+window.addEventListener('load', () => {
+  if (window.location.hash) {
+    const el = document.querySelector(window.location.hash);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+  }
+});
+</script>
+</body>
+</html>

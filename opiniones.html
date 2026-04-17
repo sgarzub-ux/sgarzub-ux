@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opiniones — CARCARE Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+/* ── Hero */
+.reviews-hero {
+  padding: calc(var(--nav-h) + 90px) var(--page-pad) 80px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: flex-end;
+}
+.reviews-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 7vw, 108px);
+  font-weight: 300;
+  line-height: 0.9;
+  color: var(--white);
+}
+.reviews-hero-title em { font-style: italic; }
+.reviews-hero-right {}
+.reviews-hero-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  line-height: 2.1;
+  color: var(--gray-light);
+  margin-bottom: 28px;
+}
+.avg-display {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.avg-number {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+}
+.avg-stars {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.star-icon {
+  width: 14px;
+  height: 14px;
+  fill: var(--white);
+}
+.star-icon.empty { fill: var(--gray-mid); }   /* era --gray-dark */
+.avg-count {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--gray-mid);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ── Reviews grid */
+.reviews-section {
+  padding: 90px var(--page-pad);
+}
+.reviews-controls {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 10px 22px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  background: var(--surface);
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+.filter-btn:hover { color: var(--white); background: var(--surface-hover); }
+.filter-btn.active { background: var(--white); color: var(--black); }
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.review-card {
+  background: var(--surface);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.review-card:hover { background: var(--surface-hover); }
+
+.review-card-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.review-stars {
+  display: flex;
+  gap: 3px;
+}
+.r-star { font-size: 11px; color: var(--white); }
+.r-star.empty { color: var(--gray-mid); }   /* era --gray-dark */
+
+.review-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.5;
+  flex: 1;
+}
+.review-text::before { content: '"'; }
+.review-text::after  { content: '"'; }
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.review-name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.05em;
+}
+.review-details {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.review-pack {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.review-vehiculo {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+}
+.review-date {
+  font-family: var(--font-body);
+  font-size: 8px;
+  color: var(--gray-mid);   /* era --gray-dark */
+  letter-spacing: 0.1em;
+}
+
+.reviews-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 0;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--gray-mid);   /* era --gray-dark */
+  text-transform: uppercase;
+}
+
+.reviews-empty {
+  grid-column: 1 / -1;
+  padding: 80px 0;
+  text-align: center;
+}
+.reviews-empty-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255,255,255,0.5);   /* era 0.3 */
+  margin-bottom: 12px;
+}
+.reviews-empty-sub {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);   /* era --gray-dark */
+}
+
+/* ── Write review form */
+.write-review {
+  padding: 90px var(--page-pad);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.write-left {}
+.write-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--white);
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+.write-title em { font-style: italic; }
+.write-desc {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  line-height: 2;
+  color: var(--gray-mid);
+}
+
+/* Star rating input */
+.star-input {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 2px;
+  padding: 16px 20px;
+  background: var(--black);
+}
+.star-input-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  padding: 16px 20px 8px;
+  background: var(--black);
+  display: block;
+}
+.star-btn {
+  font-size: 22px;
+  color: var(--gray-mid);   /* era --gray-dark */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+.star-btn:hover { transform: scale(1.2); }
+.star-btn.lit { color: var(--white); }
+
+@media (max-width: 960px) {
+  .reviews-hero { grid-template-columns: 1fr; gap: 48px; padding: 100px var(--page-pad-sm) 60px; }
+  .reviews-section { padding: 60px var(--page-pad-sm); }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .write-review { grid-template-columns: 1fr; gap: 50px; padding: 60px var(--page-pad-sm); }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link active">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <span></span>
+    <span></span>
+  </button>
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="reviews-hero">
+  <div>
+    <div class="section-label">Lo que dicen</div>
+    <h1 class="reviews-hero-title">Opiniones<br><em>reales.</em></h1>
+  </div>
+  <div class="reviews-hero-right">
+    <p class="reviews-hero-sub">Cada opinión viene de un cliente real que dejó su coche en nuestras manos. Sin filtros, sin actores. Solo resultados.</p>
+    <div class="avg-display">
+      <div class="avg-number" id="avgNumber">—</div>
+      <div>
+        <div class="avg-stars" id="avgStars"></div>
+        <div class="avg-count" id="avgCount">cargando opiniones…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="reviews-controls">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">Todas</button>
+    <button class="filter-btn" data-filter="clarity"  onclick="setFilter(this,'clarity')">Clarity</button>
+    <button class="filter-btn" data-filter="prestige" onclick="setFilter(this,'prestige')">Prestige</button>
+    <button class="filter-btn" data-filter="elite"    onclick="setFilter(this,'elite')">Élite</button>
+    <button class="filter-btn" data-filter="essenza"  onclick="setFilter(this,'essenza')">Essenza</button>
+  </div>
+  <div class="reviews-grid" id="reviewsGrid">
+    <div class="reviews-loading">Cargando opiniones…</div>
+  </div>
+</section>
+
+<!-- WRITE REVIEW -->
+<section class="write-review reveal">
+  <div class="write-left">
+    <div class="section-label">Tu experiencia</div>
+    <h2 class="write-title">¿Ya fuiste<br><em>cliente?</em></h2>
+    <p class="write-desc">Cuéntanos cómo fue. Tu opinión ayuda a otros a decidirse y nos ayuda a seguir mejorando. Solo publicamos opiniones verificadas.</p>
+  </div>
+  <div>
+    <form id="reviewForm" onsubmit="submitReview(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tu nombre</label>
+          <input class="form-input" name="nombre" type="text" placeholder="Nombre o iniciales" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Vehículo</label>
+          <input class="form-input" name="vehiculo" type="text" placeholder="Ej: BMW M3, Audi A4…">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pack recibido</label>
+        <select class="form-select form-input" name="pack">
+          <option value="" disabled selected>Selecciona el pack</option>
+          <option value="clarity">Pack Clarity</option>
+          <option value="prestige">Pack Prestige</option>
+          <option value="elite">Pack Élite</option>
+          <option value="essenza">Carcare Essenza</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <span class="star-input-label">Valoración</span>
+        <div class="star-input">
+          <button type="button" class="star-btn" data-val="1" onclick="setRating(1)">★</button>
+          <button type="button" class="star-btn" data-val="2" onclick="setRating(2)">★</button>
+          <button type="button" class="star-btn" data-val="3" onclick="setRating(3)">★</button>
+          <button type="button" class="star-btn" data-val="4" onclick="setRating(4)">★</button>
+          <button type="button" class="star-btn" data-val="5" onclick="setRating(5)">★</button>
+        </div>
+        <input type="hidden" id="ratingInput" name="rating">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tu opinión</label>
+        <textarea class="form-textarea form-input" name="texto" style="min-height:130px" placeholder="Cuéntanos cómo fue tu experiencia con Carcare…" required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Enviar opinión</button>
+      <div class="form-success" id="reviewSuccess">
+        ¡Gracias por tu opinión! La revisaremos y la publicaremos en breve.
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">CARCARE</span>
+      <p class="footer-sub">Detailing premium en Bilbao.</p>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Servicios</div>
+        <a href="servicios.html#clarity">Pack Clarity</a>
+        <a href="servicios.html#prestige">Pack Prestige</a>
+        <a href="servicios.html#elite">Pack Élite</a>
+        <a href="servicios.html#essenza">Carcare Essenza</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Páginas</div>
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="opiniones.html">Opiniones</a>
+        <a href="reserva.html">Reservar</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Carcare Bilbao</span>
+    <span class="footer-copy" style="color:var(--gray-dark)">Bilbao, Bizkaia</span>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+//  CONFIGURACIÓN — pega la URL de tu Apps Script aquí
+// ══════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlNCjz-JqFiNYk3-3V60-gRSr2Gyd5PNF8MrQcjZIiUBfYNjLin5qcMOVzvVOZRD7oRA/exec';
+
+const PACK_COLORS = {
+  clarity:  'var(--clarity)',
+  prestige: 'var(--prestige)',
+  elite:    'var(--elite)',
+  essenza:  'var(--essenza)',
+};
+const PACK_LABELS = {
+  clarity:  'Clarity',
+  prestige: 'Prestige',
+  elite:    'Élite',
+  essenza:  'Essenza',
+};
+
+let allReviews   = [];
+let activeFilter = 'all';
+let selectedRating = 0;
+let isLoading    = true;
+
+// ── Carga opiniones SOLO desde Google Sheets vía Apps Script
+async function loadReviews() {
+  setLoadingState(true);
+  try {
+    const res  = await fetch(SCRIPT_URL + '?action=reviews', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.ok) {
+      allReviews = data.reviews || [];
+    } else {
+      console.warn('Apps Script error:', data.error);
+      allReviews = [];
+    }
+  } catch (err) {
+    console.warn('No se pudieron cargar las opiniones:', err.message);
+    allReviews = [];
+    showScriptNotice();
+  } finally {
+    isLoading = false;
+    renderReviews();
+    renderStats();
+  }
+}
+
+// Aviso cuando el script aún no está configurado
+function showScriptNotice() {
+  const grid = document.getElementById('reviewsGrid');
+  grid.innerHTML = `
+    <div class="reviews-empty" style="grid-column:1/-1">
+      <div class="reviews-empty-title">Configura tu Apps Script</div>
+      <div class="reviews-empty-sub" style="max-width:480px;margin:0 auto;line-height:2">
+        Pega la URL de tu Google Apps Script en la variable <code style="color:var(--clarity);font-size:10px">SCRIPT_URL</code>
+        de este archivo para cargar las opiniones reales desde tu Google Sheets.
+      </div>
+    </div>`;
+}
+
+function setLoadingState(loading) {
+  if (loading) {
+    document.getElementById('reviewsGrid').innerHTML =
+      '<div class="reviews-loading">Cargando opiniones…</div>';
+  }
+}
+
+function renderStats() {
+  if (!allReviews.length) {
+    document.getElementById('avgNumber').textContent = '—';
+    document.getElementById('avgCount').textContent = 'Sin opiniones aún';
+    document.getElementById('avgStars').innerHTML = '';
+    return;
+  }
+  const avg = allReviews.reduce((s, r) => s + Number(r.rating), 0) / allReviews.length;
+  document.getElementById('avgNumber').textContent = avg.toFixed(1);
+  document.getElementById('avgCount').textContent = allReviews.length + ' opinión' + (allReviews.length !== 1 ? 'es' : '') + ' verificada' + (allReviews.length !== 1 ? 's' : '');
+
+  const starsEl = document.getElementById('avgStars');
+  starsEl.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox','0 0 24 24');
+    s.classList.add('star-icon');
+    if (i > Math.round(avg)) s.classList.add('empty');
+    s.innerHTML = '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>';
+    starsEl.appendChild(s);
+  }
+}
+
+function renderReviews() {
+  const grid = document.getElementById('reviewsGrid');
+
+  const filtered = activeFilter === 'all'
+    ? allReviews
+    : allReviews.filter(r => (r.pack || '').toLowerCase() === activeFilter);
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="reviews-empty">
+        <div class="reviews-empty-title">Sin opiniones aún</div>
+        <div class="reviews-empty-sub">Sé el primero en compartir tu experiencia</div>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(r => {
+    const pack  = (r.pack || '').toLowerCase();
+    const color = PACK_COLORS[pack] || 'var(--gray-mid)';
+    const label = PACK_LABELS[pack] || r.pack || '';
+    const stars = Array.from({length: 5}, (_, i) =>
+      `<span class="r-star${i >= Number(r.rating) ? ' empty' : ''}">★</span>`
+    ).join('');
+
+    return `
+    <div class="review-card">
+      <div class="review-card-accent" style="background:${color}"></div>
+      <div class="review-stars">${stars}</div>
+      <div class="review-text">${escHtml(r.texto)}</div>
+      <div class="review-meta">
+        <span class="review-name">${escHtml(r.nombre)}</span>
+        <div class="review-details">
+          ${label ? `<span class="review-pack" style="color:${color}">${label}</span>` : ''}
+          ${r.vehiculo && r.vehiculo !== '—' ? `<span class="review-vehiculo">· ${escHtml(r.vehiculo)}</span>` : ''}
+        </div>
+        ${r.fecha ? `<span class="review-date">${escHtml(r.fecha)}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Escapa HTML para seguridad
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function setFilter(btn, filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = filter;
+  renderReviews();
+}
+
+// ── Valoración con estrellas
+function setRating(val) {
+  selectedRating = val;
+  document.getElementById('ratingInput').value = val;
+  document.querySelectorAll('.star-btn').forEach((btn, i) => {
+    btn.classList.toggle('lit', i < val);
+  });
+}
+
+// ── Enviar opinión a Google Sheets
+async function submitReview(e) {
+  e.preventDefault();
+  if (!selectedRating) {
+    alert('Por favor selecciona una valoración con las estrellas.');
+    return;
+  }
+
+  const form   = e.target;
+  const submit = form.querySelector('.form-submit');
+  submit.textContent = 'Enviando…';
+  submit.disabled = true;
+
+  const payload = {
+    action:   'review',
+    nombre:   form.nombre.value.trim(),
+    vehiculo: form.vehiculo.value.trim(),
+    pack:     form.pack.value,
+    rating:   selectedRating,
+    texto:    form.texto.value.trim(),
+  };
+
+  try {
+    const res    = await fetch(SCRIPT_URL, {
+      method:  'POST',
+      body:    JSON.stringify(payload),
+    });
+    const result = await res.json();
+
+    if (result.ok) {
+      document.getElementById('reviewSuccess').classList.add('show');
+      form.reset();
+      setRating(0);
+      setTimeout(() => document.getElementById('reviewSuccess').classList.remove('show'), 7000);
+    } else {
+      alert('Error al enviar: ' + (result.error || 'Inténtalo de nuevo.'));
+    }
+  } catch (err) {
+    alert('No se pudo conectar con el servidor. Comprueba que has configurado la URL del Apps Script.');
+    console.error(err);
+  } finally {
+    submit.textContent = 'Enviar opinión';
+    submit.disabled = false;
+  }
+}
+
+// ── Inicio
+loadReviews();
+</script>
+</body>
+</html>

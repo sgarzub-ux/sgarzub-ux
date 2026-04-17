@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARCARE — Detailing Premium Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+/* ═══ HERO ═══ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.hero-img {
+  position: absolute; inset: 0;
+  /* 📸 FOTO PRINCIPAL HERO — cambiar URL */
+  background-image: url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035884/FullSizeRender_adxa7l.jpg');
+  background-size: cover;
+  background-position: center 47%;
+  transform: scale(1.1);
+  animation: heroZoom 18s ease-out forwards;
+}
+@keyframes heroZoom { to { transform: scale(1); } }
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, #060606 0%, rgba(6,6,6,0.72) 45%, rgba(6,6,6,0.25) 100%),
+    linear-gradient(to right, rgba(6,6,6,0.75) 0%, transparent 20%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 72px 90px;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s ease forwards;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-eyebrow::before { content:''; width:36px; height:1px; background:rgba(255,255,255,0.4); }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 9.5vw, 115px);
+  font-weight: 300;
+  line-height: 0.88;
+  color: var(--white);
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s ease forwards;
+  letter-spacing: -0.02em;
+}
+.hero-title em { font-style: italic; }
+.hero-title .light { color: var(--gray-mid); }
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 50px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.9s ease forwards;
+}
+.hero-tagline {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  line-height: 2;
+  max-width: 600px;
+}
+.hero-actions { display: flex; gap: 12px; align-items: center; }
+
+/* ═══ TICKER ═══ */
+.ticker-strip { background: var(--white); padding: 14px 0; overflow: hidden; }
+.ticker-track {
+  display: flex;
+  animation: ticker 28s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black);
+  padding: 0 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ticker-dot { width:4px; height:4px; background:var(--black); border-radius:50%; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ═══ MANIFESTO ═══ */
+.manifesto {
+  padding: 80px 72px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 200px;
+  align-items: start;
+}
+.manifesto-tag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(-white);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.manifesto-tag::before { content:'01'; font-size:10px; color:var(--gray-light); }
+.manifesto-quote {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 4vw, 100px);
+  font-weight: 300;
+  line-height: 1.12;
+  color: var(--white);
+}
+.services-preview .manifesto-tag::before {
+  content: '02';
+}
+
+.process .manifesto-tag::before {
+  content: '03';
+}
+.process-header {
+  grid-column: 1 / -1;
+  padding-bottom: 40px;
+}
+
+.process-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px,5.5vw,70px);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--white);
+  margin-top: 10px;
+}
+.manifesto-quote em { font-style:italic; color:var(--white); }
+.manifesto-body {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  line-height: 2.1;
+  color: var(--white);
+}
+.manifesto-body p+p { margin-top:22px; }
+.manifesto-stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+.stat-box { background:var(--surface); padding:24px 20px; transition:background 0.3s; }
+.stat-box:hover { background:var(--surface-hover); }
+.stat-num { font-family:var(--font-display); font-size:30px; font-weight:300; color:var(--white); display:block; line-height:1; }
+.stat-label { font-family:var(--font-body); font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gray-light); margin-top:8px; display:block; }
+
+.section-divider {
+  width: 100%;
+  height: 0.2px;
+  background: rgba(255,255,255,0.25); /* más visible que var(--border) */
+  margin: 10px 20px;
+}
+
+/* ═══ SERVICES PREVIEW ═══ */
+.services-preview {
+  border-top: none;
+}
+
+/* HEADER SERVICIOS */
+.sp-header {
+  padding: 60px 72px 0;
+  display: flex;
+  justify-content: space-between; /* izquierda/derecha */
+  align-items: flex-end;           /* alinea vertical con el enlace */
+  gap: 20px;
+}
+
+.sp-header-left {
+  display: flex;
+  flex-direction: column; /* pone número arriba y título debajo */
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* Número / sección */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+}
+
+/* Título principal */
+.sp-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 5.5vw, 82px);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--white);
+}
+.sp-title em {
+  font-style: italic;
+}
+
+/* Enlace "ver todos los servicios" */
+.sp-all-link {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s, gap 0.3s;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.sp-all-link:hover {
+  color: var(--white);
+  gap: 16px;
+  border-color: var(--gray-light);
+}
+
+/* GRID SERVICIOS */
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 40px 72px 100px;
+}
+
+/* TARJETAS */
+.sp-card {
+  position: relative;
+  height: 540px;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+}
+
+.sp-card-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.sp-card:hover .sp-card-img {
+  transform: scale(1.08);
+}
+
+.sp-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,6,6,0.96) 0%, rgba(6,6,6,0.3) 60%, transparent 100%);
+  transition: background 0.5s;
+}
+.sp-card:hover .sp-card-overlay {
+  background: linear-gradient(to top, rgba(6,6,6,0.98) 0%, rgba(6,6,6,0.5) 70%, rgba(6,6,6,0.1) 100%);
+}
+
+.sp-card-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 28px;
+}
+
+.sp-num {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+
+.sp-name {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--white);
+}
+.sp-name em {
+  font-style: italic;
+}
+
+.sp-desc {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.8;
+  margin-top: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s;
+  opacity: 0;
+}
+.sp-card:hover .sp-desc {
+  max-height: 80px;
+  opacity: 1;
+}
+
+.sp-price {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--white);
+  margin-top: 14px;
+}
+.sp-price-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin-left: 4px;
+}
+
+.sp-accent {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  width: 28px;
+  height: 2px;
+  transition: width 0.4s;
+}
+.sp-card:hover .sp-accent {
+  width: 48px;
+}
+
+/* ═══ PROCESS ═══ */
+.process {
+  background: var(--black); /* fondo general */
+  padding: 80px 72px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px; /* 👈 más espacio para que respiren */
+}
+
+.process-step {
+  padding: 40px 36px;
+  background: var(--surface); /* 👈 color diferente */
+  border-top: 2px solid var(--border);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.process-step:hover {
+  border-color: var(--white);
+  background: var(--surface-hover); /* 👈 efecto hover premium */
+  transform: translateY(-4px); /* 👈 sensación de elevación */
+}
+
+.process-step-num {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--gray-mid);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.process-step-title {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.process-step-text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--gray-light);
+  line-height: 1.9;
+}
+
+/* ═══ GALLERY ═══ */
+.gallery-strip { overflow:hidden; height:320px; display:flex; gap:2px; }
+.gallery-item { flex:1; background-size:cover; background-position:center; transition:flex 0.6s cubic-bezier(0.25,0.46,0.45,0.94),filter 0.4s; filter:brightness(0.6); cursor:pointer; }
+.gallery-item:hover { flex:3; filter:brightness(0.9); }
+
+/* ═══ REVIEWS STRIP ═══ */
+.reviews-strip { padding:100px 72px; border-top:1px solid var(--border); }
+.reviews-strip-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:48px; gap:40px; }
+.reviews-strip-title { font-family:var(--font-display); font-size:clamp(40px,5vw,72px); font-weight:300; line-height:0.95; color:var(--white); }
+.reviews-strip-title em { font-style:italic; }
+.reviews-avg { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; }
+.reviews-avg-num { font-family:var(--font-display); font-size:52px; font-weight:300; color:var(--white); line-height:1; }
+.reviews-avg-stars { display:flex; gap:3px; }
+.rs { font-size:13px; color:var(--white); }
+.rs.e { color:var(--white); }
+.reviews-avg-count { font-family:var(--font-body); font-size:8px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gray-mid); }
+.reviews-track { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; min-height:180px; }
+.review-mini { background:var(--surface); padding:32px 28px; display:flex; flex-direction:column; gap:14px; transition:background 0.3s; position:relative; overflow:hidden; }
+.review-mini:hover { background:var(--surface-hover); }
+.review-mini-accent { position:absolute; top:0; left:0; right:0; height:2px; }
+.review-mini-stars { display:flex; gap:2px; }
+.review-mini-text { font-family:var(--font-display); font-size:17px; font-weight:300; font-style:italic; color:var(--white); line-height:1.55; flex:1; }
+.review-mini-text::before { content:'\201C'; }
+.review-mini-text::after  { content:'\201D'; }
+.review-mini-meta { border-top:1px solid var(--border); padding-top:14px; display:flex; flex-direction:column; gap:4px; }
+.review-mini-name { font-family:var(--font-body); font-size:10px; font-weight:600; color:var(--white); letter-spacing:0.05em; }
+.review-mini-detail { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.review-mini-pack { font-family:var(--font-body); font-size:8px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; }
+.review-mini-vehicle { font-family:var(--font-body); font-size:8px; color:var(--white); letter-spacing:0.04em; }
+.reviews-track-empty { grid-column:1/-1; padding:60px 0; text-align:center; font-family:var(--font-display); font-size:26px; font-style:italic; font-weight:300; color:rgba(255,255,255,0.35); }
+.reviews-track-loading { grid-column:1/-1; padding:60px 0; text-align:center; font-family:var(--font-body); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:var(--white); }
+.reviews-strip-foot { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.reviews-strip-note { font-family:var(--font-body); font-size:9px; letter-spacing:0.1em; color:var(--white); }
+
+/* ═══ CTA BAND ═══ */
+.cta-band { padding:110px 72px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.cta-band-text { font-family:var(--font-display); font-size:clamp(36px,4vw,60px); font-weight:300; line-height:1.1; color:var(--white); }
+.cta-band-text em { font-style:italic; color:rgba(255,255,255,0.4); }
+.cta-band-actions { display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.cta-band-sub { font-family:var(--font-body); font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--white); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width:600px) {
+  .hero { justify-content: flex-start; height: auto; min-height: 100vh; padding-top: 70px;      padding-bottom: 20px;}
+   .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* eyebrow arriba, título abajo */
+    height: 100%;
+    padding: 80px;
+  }
+  .hero-bottom-wrapper {
+    margin-bottom: 10px;
+  }
+  .hero-top {
+    margin-top: 10px;
+  }
+  .hero-eyebrow { margin-bottom: 300px; font-size: 8px;}
+  .hero-title { font-size: 40px; line-height: 1.1;margin-bottom: 20px;}
+  .hero-tagline {font-size: 11px; line-height: 1.6; max-width: 100%;}
+  .hero-actions { flex-direction: column; width: 100%; gap: 12px;}
+  .hero-actions a { width: 100%; text-align: center;}
+  .hero-bottom { flex-direction:column; align-items:flex-start; gap:28px; }
+  .hero-overlay {background:linear-gradient(to top, #060606 0%, rgba(6,6,6,0.85) 50%, rgba(6,6,6,0.4) 100%);}
+  .manifesto { grid-template-columns:1fr; gap:50px; padding:40px 28px; }
+  .sp-header { padding:60px 28px 0; flex-direction:column; align-items:flex-start; gap:20px; }
+  .sp-grid { grid-template-columns:1fr 1fr; padding:32px 28px 60px; }
+  .sp-card { height:400px; }
+  .process { grid-template-columns:1fr 1fr; padding:60px 28px; }
+  .gallery-strip { height:200px; }
+  .reviews-strip { padding:80px 28px; }
+  .reviews-strip-header { flex-direction:column; align-items:flex-start; }
+  .reviews-avg { align-items:flex-start; }
+  .reviews-track { grid-template-columns:1fr; }
+  .cta-band { flex-direction:column; gap:40px; align-items:flex-start; padding:80px 28px; }
+  .cta-band-actions { align-items:flex-start; }
+}
+@media (max-width:600px) {
+  .sp-grid { grid-template-columns:1fr; }
+  .process { grid-template-columns:1fr; }
+  .manifesto-stats { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="custom-cursor" id="cursor"></div>
+<div class="custom-cursor-label" id="cursorLabel"></div>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <span></span>
+    <span></span>
+  </button>
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+  <div class="hero-top">
+    <div class="hero-eyebrow">Detailing premium a domicilio · Bilbao</div>
+  </div>
+  <div class="hero-bottom-wrapper">
+    <h1 class="hero-title">
+      No es<br>un <em>lavado.</em><br>
+      <span class="light">Es una</span><br><em>experiencia.</em>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-tagline">Cada vehículo, un proyecto único. Criterio, técnica y dedicación absoluta.</p>
+      <div class="hero-actions">
+        <a class="btn-ghost" href="servicios.html">Ver servicios</a>
+        <a class="btn-primary" href="reserva.html">Reservar ahora</a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<div class="ticker-strip">
+  <div class="ticker-track">
+    <span class="ticker-item">Detailing Premium a domicilio<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Bilbao<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Clarity<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Prestige<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Élite<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Carcare Essenza<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Tratamiento cerámico<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Corrección de Pintura<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Detailing Premium a domicilio<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Bilbao<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Clarity<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Prestige<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pack Élite<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Carcare Essenza<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Tratamiento cerámico<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Corrección de Pintura<span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<section class="manifesto reveal">
+  <div>
+    <div class="manifesto-tag">Nuestra filosofía</div>
+    <h2 class="manifesto-quote"><em>El Arte de Cuidar<br>tu Coche.</em></h2>
+  </div>
+  <div>
+    <div class="manifesto-body">
+      <p>En Carcare Bilbao no hacemos lavados. Hacemos detailing a domicilio. La diferencia está en el proceso, en los productos y en la atención al detalle que aplicamos a cada vehículo.</p>
+      <p>Cada servicio está diseñado para ofrecer un resultado concreto, duradero y visible. Desde un mantenimiento de calidad hasta la protección cerámica más avanzada del mercado. <p>Carcare no busca ser el sitio más rápido ni el más barato. Busca que, cuando recojas tu coche, sientas que ha merecido la pena. Que lo mires distinto. Que te apetezca conducirlo.<p>
+    </div>
+    </div>
+  </div>
+</section>
+<div class="section-divider">
+</div>
+<section class="services-preview reveal">
+  <div class="sp-header">
+	    <div class="sp-header-left">
+    <div class="manifesto-tag">Servicios</div>
+    <h2 class="sp-title">Elige tu <em>nivel.</em></h2></div>
+    <a href="servicios.html" class="sp-all-link">Ver todos los servicios →</a>
+  </div>
+  <div class="sp-grid">
+    <a href="servicios.html#clarity" class="sp-card" data-cursor="Ver pack">
+      <div class="sp-card-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775120669/FullSizeRender_lugjmn.jpg')"></div>
+      <!-- 📸 FOTO CLARITY — cambiar URL -->
+      <div class="sp-card-overlay"></div>
+      <div class="sp-accent" style="background:var(--clarity)"></div>
+      <div class="sp-card-body">
+        <div class="sp-num" style="color:var(--clarity)">01</div>
+        <div class="sp-name"><em>Clarity</em></div>
+        <div class="sp-desc">Básico premium. Tu coche fresco y renovado en poco tiempo.</div>
+        <div class="sp-price">Desde 60€<span class="sp-price-sub">· 2–3h</span></div>
+      </div>
+    </a>
+    <a href="servicios.html#prestige" class="sp-card" data-cursor="Ver pack">
+      <div class="sp-card-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035909/IMG_8615_zk4ri8.jpg')"></div>
+      <!-- 📸 FOTO PRESTIGE — cambiar URL -->
+      <div class="sp-card-overlay"></div>
+      <div class="sp-accent" style="background:var(--prestige)"></div>
+      <div class="sp-card-body">
+        <div class="sp-num" style="color:var(--prestige)">02</div>
+        <div class="sp-name"><em>Prestige</em></div>
+        <div class="sp-desc">Integral completo. Siente que estrenas coche cada vez.</div>
+        <div class="sp-price">Desde 180€<span class="sp-price-sub">· 6–8h</span></div>
+      </div>
+    </a>
+    <a href="servicios.html#elite" class="sp-card" data-cursor="Ver pack">
+      <div class="sp-card-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035888/IMG_9315_diy49q.jpg')"></div>
+      <!-- 📸 FOTO ÉLITE — cambiar URL -->
+      <div class="sp-card-overlay"></div>
+      <div class="sp-accent" style="background:var(--elite)"></div>
+      <div class="sp-card-body">
+        <div class="sp-num" style="color:var(--elite)">03</div>
+        <div class="sp-name"><em>Élite</em></div>
+        <div class="sp-desc">Limpieza y protección premium. La experiencia completa.</div>
+        <div class="sp-price">Desde 300€<span class="sp-price-sub">· 8–10h</span></div>
+      </div>
+    </a>
+    <a href="servicios.html#essenza" class="sp-card" data-cursor="Ver pack">
+      <div class="sp-card-img" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035925/IMG_8441_oyq8ve.jpg')"></div>
+      <!-- 📸 FOTO ESSENZA — cambiar URL -->
+      <div class="sp-card-overlay"></div>
+      <div class="sp-accent" style="background:var(--essenza)"></div>
+      <div class="sp-card-body">
+        <div class="sp-num" style="color:var(--essenza)">∞</div>
+        <div class="sp-name"><em>Essenza</em></div>
+        <div class="sp-desc">Corrección. Protección. La esencia del detailing profesional.</div>
+        <div class="sp-price">Consultar<span class="sp-price-sub">· 1–2 días</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider">
+</div>
+<section class="process reveal">
+  <div class="process-header">
+    <div class="manifesto-tag">Proceso</div>
+    <h2 class="process-title">Cómo trabajamos</h2>
+  </div>
+	<div class="process-step">
+    <div class="process-step-num">01</div>
+    <div class="process-step-title">Reservas</div>
+    <p class="process-step-text">Elige tu pack y tu franja horaria. Confirmación inmediata en tu email.</p>
+  </div>
+  <div class="process-step">
+    <div class="process-step-num">02</div>
+    <div class="process-step-title">Recepción</div>
+    <p class="process-step-text">Trabajamos a domicilio. Valoramos el estado real del coche antes de empezar y te explicamos todo lo que le vamos a realizar.</p>
+  </div>
+  <div class="process-step">
+    <div class="process-step-num">03</div>
+    <div class="process-step-title">Trabajo</div>
+    <p class="process-step-text">Aplicamos el proceso de principio a fin. Sin atajos, sin prisa, con criterio.</p>
+  </div>
+  <div class="process-step">
+    <div class="process-step-num">04</div>
+    <div class="process-step-title">Entrega</div>
+    <p class="process-step-text">Tu vehículo listo. Te explicamos el resultado y los cuidados posteriores.</p>
+  </div>
+</section>
+
+<div class="gallery-strip reveal">
+  <!-- 📸 GALERÍA HORIZONTAL — cambiar URLs aquí -->
+  <div class="gallery-item" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035919/IMG_7893_mzqzul.jpg')"></div>
+  <div class="gallery-item" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035924/IMG_8445_zrfv4w.jpg')"></div>
+  <div class="gallery-item" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035904/IMG_8711_ttc5g7.jpg')"></div>
+  <div class="gallery-item" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035898/IMG_8896_xydmkt.jpg')"></div>
+  <div class="gallery-item" style="background-image:url('https://res.cloudinary.com/dk434s7si/image/upload/q_auto/f_auto/v1775035899/IMG_9329_iocxoy.jpg')"></div>
+</div>
+
+<!-- ══════════ OPINIONES — datos reales desde Google Sheets ══════════ -->
+<section class="reviews-strip reveal" id="opiniones">
+  <div class="reviews-strip-header">
+    <div>
+      <div class="section-label">Lo que dicen</div>
+      <h2 class="reviews-strip-title">Opiniones<br><em>reales.</em></h2>
+    </div>
+    <div class="reviews-avg">
+      <div class="reviews-avg-num" id="homeAvgNum">—</div>
+      <div class="reviews-avg-stars" id="homeAvgStars"></div>
+      <div class="reviews-avg-count" id="homeAvgCount">cargando…</div>
+    </div>
+  </div>
+  <div class="reviews-track" id="homeReviewsGrid">
+    <div class="reviews-track-loading">Cargando opiniones…</div>
+  </div>
+  <div class="reviews-strip-foot">
+    <span class="reviews-strip-note">Solo se muestran opiniones verificadas</span>
+    <a href="opiniones.html" class="btn-ghost" style="font-size:9px;padding:12px 28px">Ver todas las opiniones →</a>
+  </div>
+</section>
+
+<section class="cta-band reveal">
+  <div class="cta-band-text">
+    ¿Tu coche merece<br><em>más?</em> Nosotros<br>también lo creemos.
+  </div>
+  <div class="cta-band-actions">
+    <p class="cta-band-sub">Plazas limitadas · Reserva con antelación</p>
+    <a class="btn-primary" href="reserva.html">Reservar cita ahora</a>
+    <a class="btn-ghost" href="contacto.html" style="margin-top:4px">Hablar primero</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">CARCARE</span>
+      <p class="footer-sub">Detailing premium en Bilbao, Bizkaia.</p>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Servicios</div>
+        <a href="servicios.html#clarity">Pack Clarity</a>
+        <a href="servicios.html#prestige">Pack Prestige</a>
+        <a href="servicios.html#elite">Pack Élite</a>
+        <a href="servicios.html#essenza">Carcare Essenza</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Páginas</div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="opiniones.html">Opiniones</a>
+        <a href="reserva.html">Reservar cita</a>
+        <a href="contacto.html">Contacto</a>
+     <a href="docs/terminos.pdf" target="_blank">Términos y condiciones</a>
+	<a href="docs/privacidad.pdf" target="_blank">Política de privacidad</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Redes</div>
+        <a href="https://instagram.com/carcare_bilbao" target="_blank">Instagram</a>
+        <a href="https://wa.me/34640559267" target="_blank">WhatsApp</a>
+        <a href="carcare.bilbao@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Carcare Bilbao</span>
+    <span class="footer-copy">Bilbao, Bizkaia · España</span>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+// ════════════════════════════════════════════════════
+//  CONFIGURACIÓN — pega aquí la URL de tu Apps Script
+//  (la misma que en opiniones.html y reserva.html)
+// ════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlNCjz-JqFiNYk3-3V60-gRSr2Gyd5PNF8MrQcjZIiUBfYNjLin5qcMOVzvVOZRD7oRA/exec';
+
+const PACK_COLORS = { clarity:'var(--clarity)', prestige:'var(--prestige)', elite:'var(--elite)', essenza:'var(--essenza)' };
+const PACK_LABELS = { clarity:'Clarity', prestige:'Prestige', elite:'Élite', essenza:'Essenza' };
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Carga las 3 opiniones más recientes aprobadas en Google Sheets
+async function loadHomeReviews() {
+  try {
+    const res  = await fetch(SCRIPT_URL + '?action=reviews', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.ok) {
+      renderHomeReviews(data.reviews || []);
+    } else {
+      renderHomeEmpty();
+    }
+  } catch(err) {
+    console.warn('Opiniones no disponibles:', err.message);
+    renderHomeEmpty();
+  }
+}
+
+function renderHomeEmpty() {
+  document.getElementById('homeReviewsGrid').innerHTML =
+    '<div class="reviews-track-empty">Las opiniones aparecerán aquí una vez conectes tu Apps Script</div>';
+  document.getElementById('homeAvgNum').textContent   = '—';
+  document.getElementById('homeAvgCount').textContent = 'Sin opiniones aún';
+}
+
+function renderHomeReviews(reviews) {
+  if (!reviews.length) { renderHomeEmpty(); return; }
+
+  // Media y estrellas
+  const avg = reviews.reduce((s,r) => s + Number(r.rating), 0) / reviews.length;
+  document.getElementById('homeAvgNum').textContent = avg.toFixed(1);
+  document.getElementById('homeAvgCount').textContent =
+    reviews.length + ' opinión' + (reviews.length !== 1 ? 'es' : '') +
+    ' verificada' + (reviews.length !== 1 ? 's' : '');
+  const se = document.getElementById('homeAvgStars');
+  se.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'rs' + (i > Math.round(avg) ? ' e' : '');
+    s.textContent = '★';
+    se.appendChild(s);
+  }
+
+  // Máximo 3 tarjetas
+  const grid = document.getElementById('homeReviewsGrid');
+  grid.innerHTML = reviews.slice(0, 3).map(r => {
+    const pack  = (r.pack || '').toLowerCase();
+    const color = PACK_COLORS[pack] || 'var(--gray-mid)';
+    const label = PACK_LABELS[pack] || '';
+    const stars = Array.from({length:5}, (_,i) =>
+      `<span class="rs${i >= Number(r.rating) ? ' e' : ''}">★</span>`).join('');
+    return `
+      <div class="review-mini">
+        <div class="review-mini-accent" style="background:${color}"></div>
+        <div class="review-mini-stars">${stars}</div>
+        <div class="review-mini-text">${escHtml(r.texto)}</div>
+        <div class="review-mini-meta">
+          <span class="review-mini-name">${escHtml(r.nombre)}</span>
+          <div class="review-mini-detail">
+            ${label ? `<span class="review-mini-pack" style="color:${color}">${label}</span>` : ''}
+            ${r.vehiculo && r.vehiculo !== '—' ? `<span class="review-mini-vehicle">· ${escHtml(r.vehiculo)}</span>` : ''}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Cursor personalizado
+const cursor      = document.getElementById('cursor');
+const cursorLabel = document.getElementById('cursorLabel');
+
+document.addEventListener('mousemove', e => {
+  cursor.style.left      = e.clientX + 'px';
+  cursor.style.top       = e.clientY + 'px';
+  cursorLabel.style.left = (e.clientX + 28) + 'px';
+  cursorLabel.style.top  = (e.clientY - 8) + 'px';
+});
+
+document.querySelectorAll('.sp-card, .gallery-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('big');
+    const lbl = el.dataset.cursor;
+    if (lbl) { cursorLabel.textContent = lbl; cursorLabel.classList.add('show'); }
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('big');
+    cursorLabel.classList.remove('show');
+  });
+});
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+// ── Init
+loadHomeReviews();
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — CARCARE Bilbao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+.contact-layout {
+  margin-top: var(--nav-h);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* LEFT */
+.contact-left {
+  padding: 80px var(--page-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border);
+}
+
+.contact-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6vw, 96px);
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--white);
+  margin-bottom: 30px;
+}
+.contact-main-title em { font-style: italic; }
+
+.contact-intro {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: var(--gray-light);
+  line-height: 2;
+  max-width: 500px;
+  margin-bottom: 32px;
+}
+
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 30px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--white);
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+.channel:hover { background: var(--surface-hover); transform: translateX(4px); }
+.channel-left { display: flex; flex-direction: column; gap: 4px; }
+.channel-type {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray-mid);   /* era --gray-dark */
+}
+.channel-value {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.channel-arrow {
+  font-size: 18px;
+  color: var(--gray-mid);
+  transition: transform 0.3s, color 0.3s;
+}
+.channel:hover .channel-arrow { transform: translateX(6px); color: var(--white); }
+
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.info-cell {
+  background: var(--surface);
+  padding: 24px 24px;
+}
+.info-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);   /* era --gray-dark */
+  margin-bottom: 8px;
+}
+.info-value {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-light);
+  line-height: 1.7;
+}
+
+/* RIGHT */
+.contact-right {
+  padding: 90px 50px;
+  background: none;
+}
+.contact-form-box {
+  background: var(--border);
+  padding: 52px 42px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.contact-form-title {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.contact-form-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  margin-bottom: 48px;
+}
+
+.contact-right .form-label {
+  color: var(--white);
+  font-size: 9px;
+}
+.contact-right .form-input::placeholder {
+  color: var(--gray-light);
+  font-size: 10px;
+}
+
+
+.contact-right .form-submit {
+  background: var(--white);
+  color: #000;
+}
+
+.contact-right .form-submit:hover {
+  opacity: 0.85;
+}
+
+.contact-right .form-success {
+  color: #8affc1;
+}
+
+/* FAQ accordion */
+.faq {
+  padding: 50px var(--page-pad);
+  border-top: 1px solid var(--border);
+}
+.faq-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: 60px;
+}
+.faq-title em { font-style: italic; }
+.faq-list { max-width: 760px; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: color 0.3s;
+}
+.faq-q:hover { color: rgba(255,255,255,0.7); }
+.faq-icon { font-size: 20px; color: var(--gray-mid); transition: transform 0.3s, color 0.3s; line-height: 1; flex-shrink: 0; margin-left: 20px; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--white); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--gray-light);
+  line-height: 2;
+}
+.faq-item.open .faq-a {
+  max-height: 200px;
+}
+.faq-a-inner { padding-bottom: 24px; }
+
+@media (max-width: 960px) {
+  .contact-layout { grid-template-columns: 1fr; margin-top: 0; }
+  .contact-left { padding: 100px var(--page-pad-sm) 60px; }
+  .contact-right { padding: 60px var(--page-pad-sm); }
+  .faq { padding: 80px var(--page-pad-sm); }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">CARCARE</a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+    <li><a href="opiniones.html" class="nav-link">Opiniones</a></li>
+    <li><a href="reserva.html" class="nav-link">Reservar</a></li>
+    <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
+  </ul>
+  <a class="btn-primary nav-cta" href="reserva.html">Reservar cita</a>
+  <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu"><button class="mobile-menu-close" id="mobileMenuClose" onclick="document.getElementById('mobileMenu').classList.remove('open');document.getElementById('navHamburger').classList.remove('open');document.body.style.overflow=''"><span></span><span></span></button>
+
+  <div class="mobile-menu-inner">
+    <a href="servicios.html">Servicios</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="opiniones.html">Opiniones</a>
+    <a href="reserva.html">Reservar</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+</div>
+
+<div class="contact-layout">
+  <!-- LEFT -->
+  <div class="contact-left">
+    <div>
+      <div class="section-label">Contacto</div>
+      <h1 class="contact-main-title">¿Hablamos <em>antes?</em></h1>
+      <p class="contact-intro">Sin compromiso. Si tienes dudas sobre qué pack necesitas, el estado de tu coche o cualquier otra cosa, escríbenos. Respondemos rápido.</p>
+
+      <div class="contact-channels">
+        <a class="channel" href="https://wa.me/34640559267" target="_blank">
+          <div class="channel-left">
+            <span class="channel-type">WhatsApp — respuesta inmediata</span>
+            <span class="channel-value">+34 640559267</span>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a class="channel" href="https://instagram.com/carcare_bilbao" target="_blank">
+          <div class="channel-left">
+            <span class="channel-type">Instagram — DM abierto</span>
+            <span class="channel-value">@carcare_bilbao</span>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a class="channel" href="mailto:carcare.bilbao@gmail.com">
+          <div class="channel-left">
+            <span class="channel-type">Email — respondemos en &lt; 24h</span>
+            <span class="channel-value">carcare.bilbao@gmail.com</span>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-info-grid">
+      <div class="info-cell">
+        <div class="info-label">Ubicación</div>
+        <div class="info-value">Bilbao y alrededores<br>País Vasco, España</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">Horario</div>
+        <div class="info-value">Lunes-Domingo<br>Bajo reserva</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">Teléfono</div>
+        <div class="info-value">640 55 92 67</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">Instagram</div>
+        <div class="info-value">@carcare_bilbao</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — FORM -->
+  <div class="contact-right">
+    <div class="contact-form-box">
+      <div class="contact-form-title">Escríbenos</div>
+      <p class="contact-form-sub">Te respondemos en menos de 24 horas</p>
+
+      <form onsubmit="handleContact(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input class="form-input" type="text" name="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input class="form-input" type="tel" name="telefono" placeholder="+34 600 000 000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" name="email" placeholder="tu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Asunto</label>
+          <select class="form-select form-input" name="asunto">
+            <option value="" disabled selected>¿Sobre qué quieres hablar?</option>
+            <option>Duda sobre un servicio</option>
+            <option>Presupuesto personalizado</option>
+            <option>Estado de mi vehículo</option>
+            <option>Otros</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje</label>
+          <textarea class="form-textarea form-input" name="mensaje" style="min-height:140px" placeholder="Cuéntanos lo que necesitas. Cuánto más detallas, mejor te podemos orientar." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Enviar mensaje</button>
+        <div class="form-success" id="contactSuccess">
+          Mensaje recibido. Nos pondremos en contacto contigo en menos de 24 horas.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq reveal">
+  <div class="section-label">Preguntas frecuentes</div>
+  <h2 class="faq-title">Todo lo que<br><em>necesitas saber.</em></h2>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Necesito dejar el coche todo el día?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Depende del servicio. El Pack Clarity dura entre 2 y 3 horas. El Pack Prestige entre 6 y 8 horas. El Pack Élite requiere todo el día. La Essenza necesita 1 o 2 días completos. Te lo confirmamos en la cita.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Qué diferencia hay entre un sellante y un tratamiento cerámico?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">El sellante es una protección temporal (4 o 12 meses) que se aplica sobre la pintura. El tratamiento cerámico es una capa semi-permanente que actúa como una segunda capa de barniz con mayor dureza, mejor resistencia química e hidrofobia, con duraciones de 2 a 10 años según el cerámico aplicado.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Puedo elegir cuántos pasos de pulido necesito?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Hacemos una valoración previa del estado de la carrocería antes de decidir. El número de pasos depende del nivel de defectos y el resultado deseado. Cuantos más pasos mayor es el grado de corrección de defectos. Antes de empezar a trabajar se acuerda con el cliente.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Tenéis taller fijo o sois servicio a domicilio?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Trabajamos principalmente a domicilio en Bilbao y alrededores. En caso de que el cliente no tenga un espacio adecuado, siempre se busca una alternativa.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button type="button" class="faq-q" onclick="toggleFaq(this)">¿Cómo se confirma y gestiona la reserva?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Cuando haces la solicitud en la web, la revisamos y te confirmamos en menos de 24 horas. Una vez confirmada, recibes un evento en tu Google Calendar con todos los detalles. Debes aceptar el evento para hacernos saber que asistirás a la cita.</div></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">CARCARE</span>
+      <p class="footer-sub">Detailing premium en Bilbao.</p>
+    </div>
+    <div class="footer-nav-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Servicios</div>
+        <a href="servicios.html#clarity">Pack Clarity</a>
+        <a href="servicios.html#prestige">Pack Prestige</a>
+        <a href="servicios.html#elite">Pack Élite</a>
+        <a href="servicios.html#essenza">Carcare Essenza</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Páginas</div>
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="opiniones.html">Opiniones</a>
+        <a href="reserva.html">Reservar</a>
+        <a href="docs/terminos.pdf" target="_blank">Términos y condiciones</a>
+        <a href="docs/privacidad.pdf" target="_blank">Política de privacidad</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Carcare Bilbao</span>
+    <span class="footer-copy" style="color:var(--gray-dark)">Bilbao, Bizkaia</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="shared.js"></script>
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlNCjz-JqFiNYk3-3V60-gRSr2Gyd5PNF8MrQcjZIiUBfYNjLin5qcMOVzvVOZRD7oRA/exec';
+
+async function handleContact(e) {
+  e.preventDefault();
+  const form   = e.target;
+  const submit = form.querySelector('.form-submit');
+  submit.textContent = 'Enviando…';
+  submit.disabled = true;
+
+  // Recoge los datos usando los atributos name del formulario
+  const payload = {
+    action:   'contact',
+    nombre:   form.nombre.value.trim(),
+    telefono: form.telefono.value.trim(),
+    email:    form.email.value.trim(),
+    asunto:   form.asunto.value,
+    mensaje:  form.mensaje.value.trim(),
+  };
+
+  try {
+    // URLSearchParams evita el preflight CORS — el script lo lee con e.parameter
+    const res  = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body:   new URLSearchParams(payload),
+    });
+    const text   = await res.text();
+    const result = text ? JSON.parse(text) : {};
+
+    if (result.ok) {
+      showSuccess(form);
+    } else {
+      alert('Error al enviar: ' + (result.error || 'Inténtalo de nuevo.'));
+    }
+  } catch (err) {
+    console.error('Error de conexión:', err);
+    alert('No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.');
+  } finally {
+    submit.textContent = 'Enviar mensaje';
+    submit.disabled = false;
+  }
+}
+
+function showSuccess(form) {
+  const el = document.getElementById('contactSuccess');
+  el.classList.add('show');
+  form.reset();
+  setTimeout(() => el.classList.remove('show'), 7000);
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
